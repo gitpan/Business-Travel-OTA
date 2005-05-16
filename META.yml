@@ -1,0 +1,35 @@
+---
+name: Business-Travel-OTA
+version: 0.50
+author:
+  - stephen.adkins@officevision.com
+abstract: Tools for handling OTA-compliant (Open Travel Alliance) messages
+license: perl
+requires:
+  App::Options: 0
+  Data::Dumper: 0
+  XML::Simple: 0
+build_requires:
+  App::Build: 0
+  File::Spec: 0
+dynamic_config: 1
+provides:
+  Business::Travel::OTA:
+    file: lib/Business/Travel/OTA.pm
+    version: 0.50
+  Business::Travel::OTA::Client:
+    file: lib/Business/Travel/OTA/Client.pm
+    version: 1.01
+  Business::Travel::OTA::Client::HTTP:
+    file: lib/Business/Travel/OTA/Client/HTTP.pm
+    version: 1.01
+  Business::Travel::OTA::Client::Local:
+    file: lib/Business/Travel/OTA/Client/Local.pm
+    version: 1.01
+  Business::Travel::OTA::Server:
+    file: lib/Business/Travel/OTA/Server.pm
+    version: 1.01
+  Business::Travel::OTA::Utils:
+    file: lib/Business/Travel/OTA/Utils.pm
+    version: 1.01
+generated_by: Module::Build version 0.261

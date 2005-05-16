@@ -1,0 +1,42 @@
+#!/usr/local/bin/perl -w
+
+use strict;
+
+use App::Options (
+    options => [qw(verbose)],
+    option => {
+        verbose => {
+            description => "Print more detail so we can see what's going on (range=0-9)",
+            default => 0,
+        },
+    },
+);
+
+use CGI;
+use Business::Travel::OTA::Server;
+
+{
+    my $cgi = CGI->new();
+    # print "cgi={", join(",",%$cgi), "}\n";
+    my $request_xml = $cgi->{content};
+    my $server = Business::Travel::OTA::Server->new();
+    my $response_xml = $server->execute($request_xml);
+    &send_response($cgi, $response_xml);
+}
+
+sub send_response {
+    my ($cgi, $response_xml) = @_;
+    print "Content-type: application/xml\n";
+    print "Content-length: ", length($response_xml), "\n";
+    print "\n";
+    print $response_xml;
+}
+
+sub read_file {
+    my ($file) = @_;
+    open(FILE, $file) || die "Unable to open $file: $!";
+    my $data = join("", <main::FILE>);
+    close(FILE);
+    return($data);
+}
+

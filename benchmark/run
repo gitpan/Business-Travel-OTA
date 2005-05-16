@@ -1,0 +1,43 @@
+#!/usr/local/bin/perl
+
+use lib "../lib";
+use App::Options;
+use Benchmark qw(:all) ;
+
+#######################################################################
+# The purpose of this benchmark file is to understand how long it
+# takes to do a variety of operations.
+#######################################################################
+
+sub baseline {
+    # do something
+    my $j = 1;
+    for (my $i = 0; $i < 1000; $i++) {
+        $j += $i;
+    }
+}
+
+sub baseline2 {
+    # do something
+    my $j = 1;
+    for (my $i = 0; $i < 1000; $i++) {
+        $j += $i;
+    }
+}
+
+sub baseline3 {
+    # do something
+    my $j = 1;
+    for (my $i = 0; $i < 1000; $i++) {
+        $j += $i;
+    }
+}
+
+$count = 1000;
+
+cmpthese($count, {
+    'baseline' => \&baseline,
+    'baseline2' => \&baseline2,
+    'baseline3' => \&baseline3,
+});
+

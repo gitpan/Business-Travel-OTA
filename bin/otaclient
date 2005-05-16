@@ -1,0 +1,66 @@
+#!/usr/local/bin/perl -w
+
+use strict;
+
+use App::Options (
+    options => [qw(client_class responder ping minimal verbose)],
+    option => {
+        client_class => {
+            description => "Class which implements the client protocol",
+            default => "Business::Travel::OTA::Client::HTTP",
+        },
+        responder => {
+            description => "URL to POST the Request to and get a Response from",
+            default => "http://localhost/cgi-bin/otaserver",
+        },
+        ping => {
+            description => "Send an OTA_Ping message before any other messages",
+        },
+        minimal => {
+            description => "Use minimal number of HTTP Headers",
+            default => 0,
+        },
+        verbose => {
+            description => "Print more detail so we can see what's going on (range=0-9)",
+            default => 0,
+        },
+    },
+);
+
+use LWP::UserAgent;
+use HTTP::Request;
+my $module = $App::options{client_class} . ".pm";
+$module =~ s!::!/!g;
+require $module;
+
+{
+    my $client = $App::options{client_class}->new();
+    if ($App::options{ping}) {
+        my $xml = <<EOF;
+<?xml version="1.0" encoding="UTF-8"?>
+<OTA_PingRQ
+    xmlns="http://www.opentravel.org/OTA/2002/08"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.opentravel.org/OTA/2002/08 /usr/rubicon/spadkins/src/OTA/Business-Travel-OTA/schemas/2002A/OTA_PingRQ.xsd"
+    TimeStamp="2002-12-03T11:09:47-05:00"
+    Target="Production"
+    Version="2002A"
+    SequenceNmbr="1" >
+  <EchoData>Are you there?</EchoData>
+</OTA_PingRQ>
+EOF
+        $client->send($xml);
+    }
+    foreach my $file (@ARGV) {
+        $client->send(&read_file($file));
+    }
+}
+
+sub read_file {
+    my ($file) = @_;
+    open(FILE, $file) || die "Unable to open $file: $!";
+    my $data = join("", <main::FILE>);
+    close(FILE);
+    return($data);
+}
+
