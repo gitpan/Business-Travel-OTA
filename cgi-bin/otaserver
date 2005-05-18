@@ -13,12 +13,14 @@ use App::Options (
 );
 
 use CGI;
+use CGI::Carp 'fatalsToBrowser';
 use Business::Travel::OTA::Server;
+use Business::Travel::OTA::Utils qw(dump);
 
 {
     my $cgi = CGI->new();
     # print "cgi={", join(",",%$cgi), "}\n";
-    my $request_xml = $cgi->{content};
+    my $request_xml = $cgi->{POSTDATA}[0];
     my $server = Business::Travel::OTA::Server->new();
     my $response_xml = $server->execute($request_xml);
     &send_response($cgi, $response_xml);

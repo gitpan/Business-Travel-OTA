@@ -1,6 +1,6 @@
 
 #############################################################################
-## File: $Id: Client.pm,v 1.1 2005/05/05 19:46:02 spadkins Exp $
+## File: $Id: Client.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Client;
@@ -27,11 +27,18 @@ sub new {
     my $self = { @initial_values };             # create new object reference
     bless $self, $class;                   # bless it into the required class
 
+    $self->init();
+
     return $self;
 }
 
+sub init {
+    my ($self) = @_;
+    # override this if appropriate in a subclass
+}
+
 sub send {
-    my ($request_xml) = @_;
+    my ($self, $request_xml) = @_;
     # this method is for overriding in a subclass that knows the protocol
     die "send(): don't know what protocol to use";
     my $response_xml = "<NotImplemented />";

@@ -2,6 +2,12 @@
 # CHANGE LOG
 #############################################################################
 
-VERSION 0.10
- x Initial release
+VERSION 0.51
+ x all files in SourceForge CVS
+ x fixed an Internal Server Error in otaserver
+ x add a user-agent string "OTA-Tools/0.50 (http://sourceforge.net/projects/ota-tools)" (see standard syntax)
+   [see http://www.mozilla.org/build/revised-user-agent-strings.html]
+
+VERSION 0.50
+ x Initial release: includes otaclient which can ping otaserver via HTTP
 

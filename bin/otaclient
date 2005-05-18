@@ -35,8 +35,9 @@ require $module;
 
 {
     my $client = $App::options{client_class}->new();
+    my ($response_xml);
     if ($App::options{ping}) {
-        my $xml = <<EOF;
+        my $request_xml = <<EOF;
 <?xml version="1.0" encoding="UTF-8"?>
 <OTA_PingRQ
     xmlns="http://www.opentravel.org/OTA/2002/08"
@@ -49,10 +50,12 @@ require $module;
   <EchoData>Are you there?</EchoData>
 </OTA_PingRQ>
 EOF
-        $client->send($xml);
+        $response_xml = $client->send($request_xml);
+        print $response_xml;
     }
     foreach my $file (@ARGV) {
-        $client->send(&read_file($file));
+        $response_xml = $client->send(&read_file($file));
+        print $response_xml;
     }
 }
 

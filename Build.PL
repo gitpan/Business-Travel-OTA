@@ -10,7 +10,10 @@ my $build = App::Build->new (
     requires => {
         "App::Options"   => 0,  # needed for option parsing
         "XML::Simple"    => 0,  # parsing of XML files into perl data structures
+        "XML::XPath"     => 0,  # using XPath on the XML document
         "Data::Dumper"   => 0,  # printing out perl data structures
+        "LWP::UserAgent" => 0,  # passing messages via HTTP
+        "Crypt::SSLeay"  => 0,  # support HTTPS
     },
     build_requires => {
         "App::Build"     => 0,  # needed for installing the software

@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: HTTP.pm,v 1.1 2005/05/05 19:46:02 spadkins Exp $
+## File: $Id: HTTP.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA::Client::HTTP;
@@ -9,19 +9,33 @@ use strict;
 use vars qw($VERSION @ISA);
 
 use Business::Travel::OTA::Client;
+use Business::Travel::OTA;
+use LWP::UserAgent;
 
 $VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 @ISA = ("Business::Travel::OTA::Client");
 
-sub send {
-    my ($request_xml) = @_;
-    my $verbose = $App::options{verbose};
-
+sub init {
+    my ($self) = @_;
     ##################################################################
     # Create a USER-AGENT
     ##################################################################
     my $agent = LWP::UserAgent->new();
 
+    $agent->agent("OTA-Tools/$Business::Travel::OTA::VERSION (http://sourceforge.net/projects/ota-tools)");
+    # This would cause the User-agent: header not to be sent
+    # $agent->agent("");
+    # This would append the libwww-perl version
+    # $agent->agent("OTA-Tools/0.50 (http://sourceforge.net/projects/ota-tools) " .
+    #     $agent->_agent());
+    $self->{agent} = $agent;
+}
+
+sub send {
+    my ($self, $request_xml) = @_;
+    my $verbose = $App::options{verbose};
+
+    my $agent = $self->{agent};
     ##################################################################
     # Create a REQUEST
     ##################################################################

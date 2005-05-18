@@ -1,10 +1,27 @@
 ######################################################################
-## File: $Id: TODO,v 1.7 2004/09/02 21:09:00 spadkins Exp $
+## File: $Id: TODO,v 1.1 2005/05/17 18:16:29 spadkins Exp $
 ######################################################################
 
-These items are what will be required to go to version 1.00.
- o tbd
+These items are what will be required to go to version 1.0
+ o program servers to respond with intelligent messages, not just OTA_PingRS
+ o add message creation helper classes
+ o get mailing lists set up on Sourceforge
+ o sort out how to catch error messages and report them correctly
+   (fatalsToBrowser in otaserver is not right)
 
 These are other interesting things which I might do
- o tbd
+ o add app.conf autoconfiguration on install
+ o add a persistent HTTP server (Net::Server? HTTP::Daemon?)
+ o add tests for (1) compression, (2) keep-alive
+ o create a Toolset class for different XML toolsets
+ o create Xerces, LibXML, etc. Toolsets
+ o create App::Build::Xerces, App::Build::LibXML, etc.
+ o do benchmarks for different Toolsets (parse, validate, XPath, creation)
+ o add validation
+ o write documentation
+ o add SOAP client and server
+ o create a web-based client
+ o investigate WSDL tools
+ o add schema-flattening tool
+ o add support for usage profiles (validate that a schema is within another schema)
 

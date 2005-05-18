@@ -1,6 +1,6 @@
 
 #############################################################################
-## File: $Id: Server.pm,v 1.1 2005/05/05 19:46:02 spadkins Exp $
+## File: $Id: Server.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Server;
@@ -10,7 +10,7 @@ use vars qw($VERSION);
 
 $VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
-use Business::Travel::OTA::Utils qw(outer_tag parse dump);
+use Business::Travel::OTA::Utils qw(outer_tag parse);
 
 sub new {
     my $this = shift;      # might be a package string or an object reference
