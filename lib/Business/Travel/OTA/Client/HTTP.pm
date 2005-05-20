@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: HTTP.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: HTTP.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA::Client::HTTP;
@@ -12,8 +12,22 @@ use Business::Travel::OTA::Client;
 use Business::Travel::OTA;
 use LWP::UserAgent;
 
-$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 @ISA = ("Business::Travel::OTA::Client");
+
+=head1 NAME
+
+Business::Travel::OTA::Client::HTTP - Logic for transporting messages from a client via simple HTTP
+
+=head1 SYNOPSIS
+
+  # TBD
+
+=head1 DESCRIPTION
+
+Logic for transporting messages from a client via simple HTTP
+
+=cut
 
 sub init {
     my ($self) = @_;
@@ -65,6 +79,16 @@ sub send {
 
     return($response_xml);
 }
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 
 1;
 

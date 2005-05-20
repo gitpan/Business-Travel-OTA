@@ -1,6 +1,6 @@
 
 #############################################################################
-## File: $Id: Server.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: Server.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Server;
@@ -8,9 +8,23 @@ package Business::Travel::OTA::Server;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
 use Business::Travel::OTA::Utils qw(outer_tag parse);
+
+=head1 NAME
+
+Business::Travel::OTA::Server - Base class for logic to process messages and send replies
+
+=head1 SYNOPSIS
+
+  # TBD
+
+=head1 DESCRIPTION
+
+Base class for logic to process messages and send replies.
+
+=cut
 
 sub new {
     my $this = shift;      # might be a package string or an object reference
@@ -35,7 +49,7 @@ sub execute {
     my ($self, $request_xml) = @_;
 
     my $request_tag = &outer_tag($request_xml);
-    my $doc = &parse($request_xml);
+    # my $doc = &parse($request_xml);
 
     my $response_xml = &OTA_ping();
 
@@ -60,6 +74,16 @@ sub OTA_ping {
 EOF
     return($response);
 }
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 
 1;
 

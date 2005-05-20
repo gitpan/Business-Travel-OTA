@@ -1,6 +1,6 @@
 
 #############################################################################
-## File: $Id: Client.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: Client.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Client;
@@ -8,7 +8,21 @@ package Business::Travel::OTA::Client;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+
+=head1 NAME
+
+Business::Travel::OTA::Client - Base class for all OTA clients
+
+=head1 SYNOPSIS
+
+  # TBD
+
+=head1 DESCRIPTION
+
+Base class for all OTA clients
+
+=cut
 
 
 sub new {
@@ -45,7 +59,15 @@ sub send {
     return($response_xml);
 }
 
-use XML::Simple;
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 
 1;
 

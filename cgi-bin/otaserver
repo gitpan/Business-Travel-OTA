@@ -12,6 +12,25 @@ use App::Options (
     },
 );
 
+=head1 NAME
+
+otaserver - A CGI program (and Registry program under mod_perl) that responds to OTA messages sent via simple HTTP/HTTPS
+
+=head1 SYNOPSIS
+
+  # use the "otaclient" program to exercise "otaserver"
+  # (by default, the "client_class" is set to "Business::Travel::OTA::Client::HTTP")
+
+  otaclient --ping
+  otaclient --ping --client_class=Business::Travel::OTA::Client::HTTP --responder=http://localhost/cgi-bin/otaserver
+
+=head1 DESCRIPTION
+
+The "otaserver" program is a CGI program (and Registry program under mod_perl)
+that responds to OTA messages sent via simple HTTP/HTTPS.
+
+=cut
+
 use CGI;
 use CGI::Carp 'fatalsToBrowser';
 use Business::Travel::OTA::Server;
@@ -41,4 +60,14 @@ sub read_file {
     close(FILE);
     return($data);
 }
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 

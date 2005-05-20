@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: OTA.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: OTA.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA;
@@ -12,7 +12,7 @@ use vars qw($VERSION);
 # distribution.  I did this so that it would be available for 
 # programmatic use.
 
-$VERSION = "0.51";
+$VERSION = "0.52";
 
 =head1 NAME
 

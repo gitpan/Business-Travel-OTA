@@ -27,11 +27,26 @@ use App::Options (
     },
 );
 
-use LWP::UserAgent;
-use HTTP::Request;
 my $module = $App::options{client_class} . ".pm";
 $module =~ s!::!/!g;
 require $module;
+
+=head1 NAME
+
+otaclient - Submits OTA messages to an OTA-compliant server
+
+=head1 SYNOPSIS
+
+  otaclient --ping
+  otaclient --ping --verbose
+
+=head1 DESCRIPTION
+
+Submits OTA messages to an OTA-compliant server and prints out the response messages.
+
+This is useful for exercising (and testing) an OTA-compliant server that you have developed.
+
+=cut
 
 {
     my $client = $App::options{client_class}->new();
@@ -66,4 +81,14 @@ sub read_file {
     close(FILE);
     return($data);
 }
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 

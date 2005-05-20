@@ -1,5 +1,5 @@
 ######################################################################
-## File: $Id: TODO,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: TODO,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 ######################################################################
 
 These items are what will be required to go to version 1.0
@@ -19,7 +19,6 @@ These are other interesting things which I might do
  o do benchmarks for different Toolsets (parse, validate, XPath, creation)
  o add validation
  o write documentation
- o add SOAP client and server
  o create a web-based client
  o investigate WSDL tools
  o add schema-flattening tool

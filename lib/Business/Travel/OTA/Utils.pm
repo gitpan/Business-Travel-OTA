@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: Utils.pm,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: Utils.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA::Utils;
@@ -8,7 +8,7 @@ package Business::Travel::OTA::Utils;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 
-$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
 require Exporter;
 
@@ -25,12 +25,30 @@ require Exporter;
 use XML::Simple;
 use Data::Dumper;
 
+=head1 NAME
+
+Business::Travel::OTA::Utils - Useful functions for processing OTA messages
+
+=head1 SYNOPSIS
+
+  # TBD
+
+=head1 DESCRIPTION
+
+Useful functions for processing OTA messages.
+
+=cut
+
 sub outer_tag {
     my ($xml) = @_;
     my ($tag);
-    if ($xml =~ /<([A-Za-z][^<>\s]+)/) {
+    if (!$xml) {
+        $tag = "none";
+    }
+    elsif ($xml =~ /<([A-Za-z][^<>\s]+)/) {
         $tag = $1;
     }
+    $tag ||= "none";
     return($tag);
 }
 
@@ -57,14 +75,20 @@ sub parse {
     #   },
     #);
 
-    my $xs = XML::Simple->new(
-       ForceArray => [],
-       KeyAttr => [],
-       GroupTags => {
-       },
-    );
+    my ($ref);
 
-    my $ref = $xs->XMLin($xml);
+    if ($xml) {
+        my $xs = XML::Simple->new(
+            ForceArray => [],
+            KeyAttr => [],
+            GroupTags => {
+            },
+        );
+        $ref = $xs->XMLin($xml);
+    }
+    else {
+        $ref = {};
+    }
 
     return($ref);
 }
@@ -76,6 +100,16 @@ sub dump {
     $d->Indent(1);
     return($d->Dump());
 }
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+=cut
 
 1;
 

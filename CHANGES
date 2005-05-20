@@ -2,6 +2,10 @@
 # CHANGE LOG
 #############################################################################
 
+VERSION 0.52
+ x add SOAP client and server (passing OTA messages as parameters, not attachments)
+ x began documentation in more of the files
+
 VERSION 0.51
  x all files in SourceForge CVS
  x fixed an Internal Server Error in otaserver
