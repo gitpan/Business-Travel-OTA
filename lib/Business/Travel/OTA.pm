@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: OTA.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
+## File: $Id: OTA.pm,v 1.3 2005/09/19 02:55:48 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA;
@@ -12,7 +12,7 @@ use vars qw($VERSION);
 # distribution.  I did this so that it would be available for 
 # programmatic use.
 
-$VERSION = "0.52";
+$VERSION = "0.53";
 
 =head1 NAME
 
@@ -54,8 +54,9 @@ client and server capabilities which can be adapted as necessary.
 
 Programs:
 
-  otaclient - [bin] submit OTA messages to an OTA server
-  otaserver - [cgi-bin] respond to OTA messages sent by a client
+  otaclient  - [bin] submit OTA messages to an OTA server
+  otarelease - [bin] download, install, and manage versions of the OTA specification
+  otaserver  - [cgi-bin] respond to OTA messages sent by a client
 
 Modules:
 
@@ -65,6 +66,22 @@ Modules:
   Business::Travel::OTA::Client::HTTP - transports messages via simple HTTP
   Business::Travel::OTA::Client::Local - emulate sending to a server
   Business::Travel::OTA::Server - base class for OTA message dispatch logic
+
+Getting Started:
+
+  1. Install the Business-Travel-OTA Software distribution
+  2. Install a version of the OTA message schema specifications
+  3. Validate some XML messages against their OTA schema specifications
+  4. Configure and test a Demo Client and Server
+  5. Use the Demo Client to send a message to a real server
+  6. Use a real client to send messages to the Demo Server
+  7. Explore other code distributions built on the Business-Travel-OTA distribution
+  8. Write your own code distribution built on Business-Travel-OTA
+
+=head1 INSTALLATION
+
+Please see the documentation for Business::Travel::OTA::installguide
+and Business::Travel::OTA::installguide::win32 for details on installation.
 
 =head1 ACKNOWLEDGEMENTS
 

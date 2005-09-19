@@ -13,6 +13,13 @@ use App::Options (
             description => "URL to POST the Request to and get a Response from",
             default => "http://localhost/cgi-bin/otaserver",
         },
+        ota_message_dir => {
+            description => "Directory for OTA messages to send",
+            default => '${prefix}/share/ota/message',
+        },
+        send => {
+            description => "Send an XML request message message before any other messages",
+        },
         ping => {
             description => "Send an OTA_Ping message before any other messages",
         },
@@ -31,14 +38,20 @@ my $module = $App::options{client_class} . ".pm";
 $module =~ s!::!/!g;
 require $module;
 
+use Business::Travel::OTA::Utils qw(read_file);
+
 =head1 NAME
 
 otaclient - Submits OTA messages to an OTA-compliant server
 
 =head1 SYNOPSIS
 
-  otaclient --ping
-  otaclient --ping --verbose
+  otaclient --ping               # sends an OTA_PingRQ message
+  otaclient --ping --verbose     
+  otaclient --send=OTA_PingRQ
+  otaclient OTA_PingRQ
+  otaclient OTA_PingRQ.xml
+  otaclient /usr/mycompany/prod/share/ota/message/OTA_PingRQ.xml
 
 =head1 DESCRIPTION
 
@@ -50,7 +63,7 @@ This is useful for exercising (and testing) an OTA-compliant server that you hav
 
 {
     my $client = $App::options{client_class}->new();
-    my ($response_xml);
+    my ($request_xml, $response_xml);
     if ($App::options{ping}) {
         my $request_xml = <<EOF;
 <?xml version="1.0" encoding="UTF-8"?>
@@ -65,21 +78,28 @@ This is useful for exercising (and testing) an OTA-compliant server that you hav
   <EchoData>Are you there?</EchoData>
 </OTA_PingRQ>
 EOF
+        $request_xml = $client->send($request_xml);
+        print $request_xml;
+    }
+
+    my $ota_message_dir = $App::options{ota_message_dir} || "$App::options{prefix}/share/ota/message";
+
+    my @files = @ARGV;
+    push(@files, split(/,/,$App::options{send})) if ($App::options{send});
+
+    foreach my $request_file (@files) {
+        if (! -f $request_file) {
+            if (-f "$ota_message_dir/$request_file") {
+                $request_file = "$ota_message_dir/$request_file";
+            }
+            elsif (-f "$ota_message_dir/$request_file.xml") {
+                $request_file = "$ota_message_dir/$request_file.xml";
+            }
+        }
+        $request_xml = &read_file($request_file);
         $response_xml = $client->send($request_xml);
         print $response_xml;
     }
-    foreach my $file (@ARGV) {
-        $response_xml = $client->send(&read_file($file));
-        print $response_xml;
-    }
-}
-
-sub read_file {
-    my ($file) = @_;
-    open(FILE, $file) || die "Unable to open $file: $!";
-    my $data = join("", <main::FILE>);
-    close(FILE);
-    return($data);
 }
 
 =head1 ACKNOWLEDGEMENTS

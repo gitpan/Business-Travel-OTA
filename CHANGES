@@ -2,6 +2,11 @@
 # CHANGE LOG
 #############################################################################
 
+VERSION 0.53
+ x began documentation in more of the files
+ x added installguide.pod and installguide/win32.pod
+ x added ability to send and receive arbitrary messages
+
 VERSION 0.52
  x add SOAP client and server (passing OTA messages as parameters, not attachments)
  x began documentation in more of the files

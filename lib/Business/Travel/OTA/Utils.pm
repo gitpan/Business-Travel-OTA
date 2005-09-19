@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: Utils.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
+## File: $Id: Utils.pm,v 1.3 2005/09/19 02:55:48 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA::Utils;
@@ -8,7 +8,7 @@ package Business::Travel::OTA::Utils;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 
-$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.3 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
 require Exporter;
 
@@ -19,6 +19,8 @@ require Exporter;
 @EXPORT_OK = qw(
     outer_tag
     parse
+    substitute
+    read_file
     dump
 );
 
@@ -91,6 +93,20 @@ sub parse {
     }
 
     return($ref);
+}
+
+sub substitute {
+    my ($text, $params) = @_;
+    $text =~ s/\{([^{}]+)\}/(defined $params->{$1}) ? $params->{$1} : ""/eg;
+    return($text);
+}
+
+sub read_file {
+    my ($filename) = @_;
+    open(Business::Travel::OTA::Utils::FILE, "< $filename") || die "Unable to open $filename: $!\n";
+    my $data = join("", <Business::Travel::OTA::Utils::FILE>);
+    close(Business::Travel::OTA::Utils::FILE);
+    return($data);
 }
 
 sub dump {

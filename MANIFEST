@@ -8,12 +8,16 @@ META.yml
 benchmark/run
 bin/otaclient
 cgi-bin/otaserver
+cgi-bin/otasoap
 lib/Business/Travel/OTA.pm
 lib/Business/Travel/OTA/Client.pm
 lib/Business/Travel/OTA/Client/HTTP.pm
 lib/Business/Travel/OTA/Client/Local.pm
+lib/Business/Travel/OTA/Client/SOAP.pm
 lib/Business/Travel/OTA/Server.pm
 lib/Business/Travel/OTA/Utils.pm
+lib/Business/Travel/OTA/installguide.pod
+lib/Business/Travel/OTA/installguide/win32.pod
 t/client_http.t
 t/client_local.t
 t/validate.t

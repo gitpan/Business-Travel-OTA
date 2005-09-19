@@ -1,6 +1,6 @@
 
 #############################################################################
-## File: $Id: Server.pm,v 1.2 2005/05/20 13:24:40 spadkins Exp $
+## File: $Id: Server.pm,v 1.3 2005/09/19 02:55:48 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Server;
@@ -8,7 +8,7 @@ package Business::Travel::OTA::Server;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.3 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
 use Business::Travel::OTA::Utils qw(outer_tag parse);
 
@@ -51,13 +51,15 @@ sub execute {
     my $request_tag = &outer_tag($request_xml);
     # my $doc = &parse($request_xml);
 
-    my $response_xml = &OTA_ping();
+    my $response_xml = &_OTA_ping();
 
     return($response_xml);
 }
 
 # HERE ONLY TEMPORARILY
-sub OTA_ping {
+sub _OTA_ping {
+    my ($self, $message) = @_;
+    $message ||= "Hello";
     my $response = <<EOF;
 <?xml version="1.0" encoding="UTF-8"?>
 <OTA_PingRS
@@ -69,8 +71,28 @@ sub OTA_ping {
     Version="2002A"
     SequenceNmbr="1" >
   <Success/>
-  <EchoData>Are you There</EchoData>
+  <EchoData>$message</EchoData>
 </OTA_PingRS>
+EOF
+    return($response);
+}
+
+sub _OTA_error {
+    my ($self, $message) = @_;
+    $message ||= "Error";
+    my $response = <<EOF;
+<?xml version="1.0" encoding="UTF-8"?>
+<OTA_ErrorRS
+    xmlns="http://www.opentravel.org/OTA/2002/08"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.opentravel.org/OTA/2002/08 C:/OTA/2003B/20021031/OTA_Ping.xsd"
+    TimeStamp="2002-12-03T11:09:49-05:00"
+    Target="Production"
+    Version="2002A"
+    SequenceNmbr="1" >
+  <Success/>
+  <EchoData>$message</EchoData>
+</OTA_ErrorRS>
 EOF
     return($response);
 }
