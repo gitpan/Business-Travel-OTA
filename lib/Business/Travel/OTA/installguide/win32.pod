@@ -40,14 +40,15 @@ ActiveState.
 
 Registration is required, but it is free of charge.
 Follow the download and installation directions and you should end
-up with perl installed in the following directories under C:\Perl.
+up with perl installed in the following directories under C:\usr.
+(Note: Install under C:\usr instead of the default C:\Perl.)
 
-  C:\Perl            # install directory for Perl
-  C:\Perl\bin        # programs directory (home of perl.exe)
-  C:\Perl\eg         # example code
-  C:\Perl\html       # html doc for the installed perl modules
-  C:\Perl\lib        # standard perl modules
-  C:\Perl\site\lib   # extram perl modules installed at this site
+  C:\usr            # install directory for Perl
+  C:\usr\bin        # programs directory (home of perl.exe)
+  C:\usr\eg         # example code
+  C:\usr\html       # html doc for the installed perl modules
+  C:\usr\lib        # standard perl modules
+  C:\usr\site\lib   # extram perl modules installed at this site
 
 =head1 OTHER PERL MODULES
 
@@ -147,7 +148,7 @@ After saving it on your disk, run the program to extract three files.
   NMAKE.EXE
   NMAKE.ERR
 
-Move these files to C:\Perl\bin.  This should put them in the PATH so that
+Move these files to C:\usr\bin.  This should put them in the PATH so that
 they will be found by the CPAN shell.
 
 =head1 APACHE

@@ -19,7 +19,6 @@ lib/Business/Travel/OTA/RemoteServer.pm
 lib/Business/Travel/OTA/RemoteServer/HTTP.pm
 lib/Business/Travel/OTA/RemoteServer/Local.pm
 lib/Business/Travel/OTA/RemoteServer/SOAP.pm
-lib/Business/Travel/OTA/Server.pm
 lib/Business/Travel/OTA/TestAccumulator.pm
 lib/Business/Travel/OTA/Transport.pm
 lib/Business/Travel/OTA/Transport/HTTP.pm
