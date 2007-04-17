@@ -1,14 +1,14 @@
 
 ######################################################################
-## File: $Id: SOAP.pm,v 1.2 2005/09/19 02:54:18 spadkins Exp $
+## File: $Id: SOAP.pm,v 1.2 2006/12/08 20:22:43 spadkins Exp $
 ######################################################################
 
-package Business::Travel::OTA::Client::SOAP;
+package Business::Travel::OTA::Transport::SOAP;
 
 use strict;
 use vars qw($VERSION @ISA);
 
-use Business::Travel::OTA::Client;
+use Business::Travel::OTA::Transport;
 use Business::Travel::OTA;
 
 my (@options);
@@ -20,11 +20,11 @@ BEGIN {
 use SOAP::Lite @options;
 
 $VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
-@ISA = ("Business::Travel::OTA::Client");
+@ISA = ("Business::Travel::OTA::Transport");
 
 =head1 NAME
 
-Business::Travel::OTA::Client::SOAP - Logic for transporting messages from a client via simple SOAP
+Business::Travel::OTA::Transport::SOAP - Logic for transporting messages from a client via simple SOAP
 
 =head1 SYNOPSIS
 
@@ -37,10 +37,11 @@ Logic for transporting messages from a client via simple SOAP
 =cut
 
 sub send {
-    my ($self, $request_xml) = @_;
+    &App::sub_entry if ($App::trace);
+    my ($self, $request_xml, $options) = @_;
 
-    my $uri   = $App::options{soap_uri}   || "http://localhost/Business/Travel/OTA/Server";
-    my $proxy = $App::options{soap_proxy} || "http://localhost/cgi-bin/otasoap";
+    my $uri   = $options->{soap_uri}   || "http://localhost/Business/Travel/OTA";
+    my $proxy = $options->{soap_proxy} || "http://localhost/cgi-bin/otasoap";
 
     my ($response, $response_xml);
 
@@ -103,13 +104,14 @@ sub send {
         $response_xml = $response->result();
     }
 
+    &App::sub_exit($response_xml) if ($App::trace);
     return($response_xml);
 }
 
 =head1 ACKNOWLEDGEMENTS
 
  * Author:  Stephen Adkins <sadkins@therubicongroup.com>
- * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * Copyright: (c) 2007 Stephen Adkins (for the purpose of making it Free)
  * License: This is free software. It is licensed under the same terms as Perl itself.
 
 =head1 SEE ALSO

@@ -83,7 +83,7 @@ sub send {
 =head1 ACKNOWLEDGEMENTS
 
  * Author:  Stephen Adkins <sadkins@therubicongroup.com>
- * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * Copyright: (c) 2007 Stephen Adkins (for the purpose of making it Free)
  * License: This is free software. It is licensed under the same terms as Perl itself.
 
 =head1 SEE ALSO

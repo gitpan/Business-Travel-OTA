@@ -1,6 +1,6 @@
 
 ######################################################################
-## File: $Id: Utils.pm,v 1.3 2005/09/19 02:55:48 spadkins Exp $
+## File: $Id: Utils.pm,v 1.4 2006/12/08 20:22:43 spadkins Exp $
 ######################################################################
 
 package Business::Travel::OTA::Utils;
@@ -8,7 +8,7 @@ package Business::Travel::OTA::Utils;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 
-$VERSION = do { my @r=(q$Revision: 1.3 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+$VERSION = do { my @r=(q$Revision: 1.4 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
 require Exporter;
 
@@ -42,6 +42,7 @@ Useful functions for processing OTA messages.
 =cut
 
 sub outer_tag {
+    &App::sub_entry if ($App::trace);
     my ($xml) = @_;
     my ($tag);
     if (!$xml) {
@@ -51,10 +52,12 @@ sub outer_tag {
         $tag = $1;
     }
     $tag ||= "none";
+    &App::sub_exit($tag) if ($App::trace);
     return($tag);
 }
 
 sub parse {
+    &App::sub_entry if ($App::trace);
     my ($xml) = @_;
 
     #$xs = XML::Simple->new(
@@ -81,6 +84,8 @@ sub parse {
 
     if ($xml) {
         my $xs = XML::Simple->new(
+            XMLDecl => '<?xml version="1.0" encoding="utf-8"?>',
+            KeepRoot => 1,
             ForceArray => [],
             KeyAttr => [],
             GroupTags => {
@@ -92,35 +97,44 @@ sub parse {
         $ref = {};
     }
 
+    &App::sub_exit($ref) if ($App::trace);
     return($ref);
 }
 
 sub substitute {
+    &App::sub_entry if ($App::trace);
     my ($text, $params) = @_;
     $text =~ s/\{([^{}]+)\}/(defined $params->{$1}) ? $params->{$1} : ""/eg;
+    &App::sub_exit($text) if ($App::trace);
     return($text);
 }
 
 sub read_file {
+    &App::sub_entry if ($App::trace);
     my ($filename) = @_;
     open(Business::Travel::OTA::Utils::FILE, "< $filename") || die "Unable to open $filename: $!\n";
-    my $data = join("", <Business::Travel::OTA::Utils::FILE>);
+    local $/ = undef;
+    my $data = <Business::Travel::OTA::Utils::FILE>;
     close(Business::Travel::OTA::Utils::FILE);
+    &App::sub_exit($data) if ($App::trace);
     return($data);
 }
 
 sub dump {
+    &App::sub_entry if ($App::trace);
     my ($ref, $name) = @_;
     $name ||= "data";
     my $d = Data::Dumper->new([ $ref ], [ $name ]);
     $d->Indent(1);
-    return($d->Dump());
+    my $dump = $d->Dump();
+    &App::sub_exit($dump) if ($App::trace);
+    return($dump);
 }
 
 =head1 ACKNOWLEDGEMENTS
 
  * Author:  Stephen Adkins <sadkins@therubicongroup.com>
- * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * Copyright: (c) 2007 Stephen Adkins (for the purpose of making it Free)
  * License: This is free software. It is licensed under the same terms as Perl itself.
 
 =head1 SEE ALSO

@@ -1,5 +1,9 @@
 #!/usr/local/bin/perl -w
 
+BEGIN {
+    $VERSION = do { my @r=(q$Revision: 1.5 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+}
+
 use strict;
 
 use App::Options (
@@ -14,15 +18,15 @@ use App::Options (
 
 =head1 NAME
 
-otaserver - A CGI program (and Registry program under mod_perl) that responds to OTA messages sent via simple HTTP/HTTPS
+otaserver - A CGI program (and Registry program under mod_perl) that responds to OTA messages sent via simple HTTP/HTTPS POST
 
 =head1 SYNOPSIS
 
   # use the "otaclient" program to exercise "otaserver"
-  # (by default, the "client_class" is set to "Business::Travel::OTA::Client::HTTP")
+  # (by default, the "transport_class" is set to "Business::Travel::OTA::Transport::HTTP")
 
   otaclient --ping
-  otaclient --ping --client_class=Business::Travel::OTA::Client::HTTP --responder=http://localhost/cgi-bin/otaserver
+  otaclient --ping --transport_class=Business::Travel::OTA::Transport::HTTP --server_url=http://localhost/cgi-bin/otaserver
 
 =head1 DESCRIPTION
 
@@ -31,17 +35,18 @@ that responds to OTA messages sent via simple HTTP/HTTPS.
 
 =cut
 
+use App;
 use CGI;
 use CGI::Carp 'fatalsToBrowser';
-use Business::Travel::OTA::Server;
-use Business::Travel::OTA::Utils qw(dump);
+use Business::Travel::OTA;
 
 {
     my $cgi = CGI->new();
     # print "cgi={", join(",",%$cgi), "}\n";
     my $request_xml = $cgi->{POSTDATA}[0];
-    my $server = Business::Travel::OTA::Server->new();
-    my $response_xml = $server->execute($request_xml);
+    my $context = App->context();
+    my $local_server = $context->local_server();
+    my $response_xml = $local_server->dispatch_message($request_xml);
     &send_response($cgi, $response_xml);
 }
 

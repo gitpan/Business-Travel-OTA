@@ -1,20 +1,23 @@
 
 #############################################################################
-## File: $Id: Server.pm,v 1.3 2005/09/19 02:55:48 spadkins Exp $
+## File: $Id: Server.pm,v 1.1 2006/04/19 03:59:32 spadkins Exp $
 #############################################################################
 
 package Business::Travel::OTA::Server;
 
 use strict;
-use vars qw($VERSION);
+use vars qw($VERSION @ISA);
+$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
 
-$VERSION = do { my @r=(q$Revision: 1.3 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r};
+use App;
+use App::Service;
+use Business::Travel::OTA::Transport;
 
-use Business::Travel::OTA::Utils qw(outer_tag parse);
+@ISA = qw(App::Service);
 
 =head1 NAME
 
-Business::Travel::OTA::Server - Base class for logic to process messages and send replies
+Business::Travel::OTA::Server - Base class for all OTA servers
 
 =head1 SYNOPSIS
 
@@ -22,85 +25,26 @@ Business::Travel::OTA::Server - Base class for logic to process messages and sen
 
 =head1 DESCRIPTION
 
-Base class for logic to process messages and send replies.
+Base class for all OTA servers
 
 =cut
 
-sub new {
-    my $this = shift;      # might be a package string or an object reference
-    my $class = ref($this) || $this;                          # get the class
-
-    my (@initial_values);
-    if ($#_ >= 0 && ref($_[0]) eq "HASH") {    # if first arg is a hashref...
-        my $initial_values = shift;    # it is a set of initial attrib values
-        @initial_values = { %$initial_values };
-    }
-    if ($#_ >= 0 && $#_ % 2 == 1) {             # an even number of args left
-        push(@initial_values,@_);
-    }
-
-    my $self = { @initial_values };             # create new object reference
-    bless $self, $class;                   # bless it into the required class
-
-    return $self;
-}
-
-sub execute {
+sub send {
+    &App::sub_entry if ($App::trace);
     my ($self, $request_xml) = @_;
-
-    my $request_tag = &outer_tag($request_xml);
-    # my $doc = &parse($request_xml);
-
-    my $response_xml = &_OTA_ping();
-
+    my $context = $self->{context};
+    my $transport = $context->ota_transport($self->{transport});
+    my $server_url = $self->{server_url};
+    my $transport_options = $self;
+    my $response_xml = $transport->send($request_xml, $transport_options);
+    &App::sub_exit($response_xml) if ($App::trace);
     return($response_xml);
-}
-
-# HERE ONLY TEMPORARILY
-sub _OTA_ping {
-    my ($self, $message) = @_;
-    $message ||= "Hello";
-    my $response = <<EOF;
-<?xml version="1.0" encoding="UTF-8"?>
-<OTA_PingRS
-    xmlns="http://www.opentravel.org/OTA/2002/08"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.opentravel.org/OTA/2002/08 C:/OTA/2003B/20021031/OTA_Ping.xsd"
-    TimeStamp="2002-12-03T11:09:49-05:00"
-    Target="Production"
-    Version="2002A"
-    SequenceNmbr="1" >
-  <Success/>
-  <EchoData>$message</EchoData>
-</OTA_PingRS>
-EOF
-    return($response);
-}
-
-sub _OTA_error {
-    my ($self, $message) = @_;
-    $message ||= "Error";
-    my $response = <<EOF;
-<?xml version="1.0" encoding="UTF-8"?>
-<OTA_ErrorRS
-    xmlns="http://www.opentravel.org/OTA/2002/08"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.opentravel.org/OTA/2002/08 C:/OTA/2003B/20021031/OTA_Ping.xsd"
-    TimeStamp="2002-12-03T11:09:49-05:00"
-    Target="Production"
-    Version="2002A"
-    SequenceNmbr="1" >
-  <Success/>
-  <EchoData>$message</EchoData>
-</OTA_ErrorRS>
-EOF
-    return($response);
 }
 
 =head1 ACKNOWLEDGEMENTS
 
  * Author:  Stephen Adkins <sadkins@therubicongroup.com>
- * Copyright: (c) 2005 Stephen Adkins (for the purpose of making it Free)
+ * Copyright: (c) 2007 Stephen Adkins (for the purpose of making it Free)
  * License: This is free software. It is licensed under the same terms as Perl itself.
 
 =head1 SEE ALSO

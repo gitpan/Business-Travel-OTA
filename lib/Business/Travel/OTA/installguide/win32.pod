@@ -11,7 +11,7 @@ Business::Travel::OTA::installguide::win32 - Installation Guide for the Business
 =head1 INTRODUCTION
 
 This is the Installation Guide to the Business-Travel-OTA distribution
-the Microsoft Windows platform.
+for the Microsoft Windows platform.
 You can find out more background to the project on the web.
 
   http://search.cpan.org/~spadkins/Business-Travel-OTA/lib/Business/Travel/OTA.pm
@@ -104,6 +104,7 @@ necessary in order for any of Business-Travel-OTA to run.
 You may need to follow up any such "install XYZ::ABC" module with a command like "install 1"
 which selects one of the versions found. Sometimes even this will fail, saying that the
 module is already installed.  In that case, you may need to type something like
+"install 1 -force -nofollow".  Sometimes you need to "search XYZ::ABC" before you do the
 "install 1 -force -nofollow".)
 
   C:\> ppm
@@ -117,7 +118,37 @@ module is already installed.  In that case, you may need to type something like
   PPM> quit
   C:\>
 
+HTML documentation which is available here
+
+  http://search.cpan.org
+
+should also be installed on your hard disk here.
+
 =cut
+
+=head1 NMAKE
+
+The PPM method for installing software is described above.  However, the method of
+installing software which is most native to Perl is through the CPAN shell.
+In order for this to work, you need a "make" tool.  Microsoft provides "nmake" for
+this purpose.
+
+I found reference to "nmake" on Microsoft's site here.
+
+  http://support.microsoft.com/default.aspx?scid=kb;en-us;132084
+
+Then I downloaded the most recent version (a self-extracting archive) here.
+
+  http://download.microsoft.com/download/vc15/patch/1.52/w95/en-us/nmake15.exe
+
+After saving it on your disk, run the program to extract three files.
+
+  README.TXT
+  NMAKE.EXE
+  NMAKE.ERR
+
+Move these files to C:\Perl\bin.  This should put them in the PATH so that
+they will be found by the CPAN shell.
 
 =head1 APACHE
 
@@ -145,6 +176,16 @@ release; depending on changes made in Apache, you may or may not be able
 to use an earlier Apache binary. However, in the Apache Win32 world it
 is particularly a good idea to use the latest version, for bug and
 security fixes.
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2006 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+<Business::Travel::OTA::installguide>
 
 =cut
 

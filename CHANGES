@@ -2,6 +2,15 @@
 # CHANGE LOG
 #############################################################################
 
+VERSION 0.60
+ x complete rewrite based on App-Context framework
+ x migrated to Subversion (svn) on SourceForge
+
+VERSION 0.54
+ x renamed Business::Travel::OTA::Server to Business::Travel::OTA::Dispatcher
+ x renamed Business::Travel::OTA::Client to Business::Travel::OTA::Transport
+ x added Business::Travel::OTA::Toolset
+
 VERSION 0.53
  x began documentation in more of the files
  x added installguide.pod and installguide/win32.pod

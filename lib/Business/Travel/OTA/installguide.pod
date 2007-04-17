@@ -10,8 +10,7 @@ Business::Travel::OTA::installguide - Installation Guide for the Business-Travel
 
 =head1 INTRODUCTION
 
-This is the Installation Guide to the Business-Travel-OTA distribution
-the Microsoft Windows platform.
+This is the Installation Guide to the Business-Travel-OTA distribution.
 You can find out more background to the project on the web.
 
   http://search.cpan.org/~spadkins/Business-Travel-OTA/lib/Business/Travel/OTA.pm

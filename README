@@ -1,17 +1,73 @@
 ######################################################################
-## File: $Id: README,v 1.1 2005/05/17 18:16:29 spadkins Exp $
+## File: $Id: README,v 1.2 2006/12/08 20:22:43 spadkins Exp $
 ######################################################################
 
 1. What is the Business-Travel-OTA distribution?
+
+The Business-Travel-OTA distribution is a set of 
+tools for handling OTA-compliant (Open Travel Alliance) messages.
+
+The OTA publishes an evolving set of XML schemas (*.xsd) twice a year
+which define a set of
+travel-industry related XML messages.  These messages are organized as
+Request/Response (RQ/RS) pairs.
+
+The OTA does not mandate that a certain protocol be used for the
+exchange of these messages.  However, it has specified three ways that
+have been commonly used: simple HTTP POST, SOAP 1.1, and SOAP 1.2.
+
+This distribution provides (or will provide):
+
+ * a test client,
+ * a test server,
+ * a framework for client and server development,
+ * a set of tools for managing XML message libraries and XML schema libraries,
+ * a set of tools for benchmarking and volume testing.
+
+The modules within should be understood from the perspective of either
+client or the server.
+
+The client knows about many servers but submits any specific
+message to a specific Server belonging to a Partner using the
+appropriate Transport protocol.
+
+The server receives a message from a client, determines the Partner
+it comes from from protocol-level information or information in the
+message, and executes the message (via an appropriate Dispatcher),
+causing an appropriate response message to be generated and returned
+to the client.
+
+ Business::Travel::OTA::RemoteServer - An OTA remote server belongs to an
+   OTA Partner.  There are very few OTA Servers which are accessible to the
+   public.  They are mostly secure servers which only established business
+   partners are allowed to access.  Each Server is associated with one Partner,
+   using one Transport protocol to exchange messages.
+
+ Business::Travel::OTA::Partner - An OTA Partner may have several servers
+   (i.e. test, production), all of which obey the same rules, support
+   the same messages, do security and session management the same way,
+   and require the same usage profiles of the supported messages.
+
+ Business::Travel::OTA::Transport - Each possible Transport protocol
+   is a way whereby a Request/Response message pair may be exchanged.
+   
+ Business::Travel::OTA::Client
+ Business::Travel::OTA::RemoteServer
+ Business::Travel::OTA::LocalServer
+ Business::Travel::OTA::Partner
+ Business::Travel::OTA::Transport
+ Business::Travel::OTA::Conversation
+ Business::Travel::OTA::UseCase
+ XML::Toolset
 
 2. How do I install it?
 
 To install this module, cd to the directory that contains this README
 file and type the following (as usual).
 
-   perl Build.PL
-   (or) perl Build.PL install_base=$PREFIX
-   ./Build
-   ./Build test
-   ./Build install
+   perl Makefile.PL
+   (or) perl Makefile.PL PREFIX=$PREFIX
+   make
+   make test
+   make install
 

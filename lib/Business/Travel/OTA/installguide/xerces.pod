@@ -1,0 +1,86 @@
+#!perl -w
+# run this document through perl to check its syntax
+use Pod::Checker;
+podchecker(\*DATA);
+__END__
+
+=head1 NAME
+
+Business::Travel::OTA::installguide::xerces - Installation Guide for the XML::Xerces
+
+=head1 INTRODUCTION
+
+This is the Installation Guide to XML::Xerces.
+
+XML::Xerces is a perl module built on top of the (Apache) Xerces C libraries (Xerces-C).
+It has full-featured XML parsing, validation, XPath, and construction capabilities.
+
+You can find out more background on the project on the web.
+
+  http://xerces.apache.org/xerces-p/                      # XML::Xerces for Perl
+  http://xml.apache.org/xerces-c/                         # Xerces-C overview page
+  http://xml.apache.org/xerces-c/install.html             # installation instructions
+  http://xml.apache.org/xerces-c/download.cgi             # download page
+  http://xml.apache.org/xerces-c/build.html               # build overview
+  http://xml.apache.org/xerces-c/build-winunix.html#UNIX  # build from source on Unix
+  http://xml.apache.org/xerces-c/apiDocs/index.html       # C/C++ API documentation
+  http://xml.apache.org/xerces-c/program.html             # Xerces programming guide
+
+There is not much explicit documentation for the Perl API.
+However, it follows the C API very closely, and there is good documentation for the C API.
+
+The following are installation notes from specific successful attempts to install the software.
+
+=head1 INSTALLATION
+
+=head2 Xerces 2.7.0 from Source (gcc-3.3.4) on Linux (Gentoo 3.3.4-r1) (2006-04-19)
+
+Followed instructions at
+
+  http://xerces.apache.org/xerces-p/
+  http://xml.apache.org/xerces-c/build-winunix.html#UNIX
+
+Downloaded Xerces C.
+
+  su -   # you must be root for some of the following operations (to install in system places)
+  cd /usr/local/src
+  mkdir tar
+  wget -O tar/xerces-c-current.tar.gz http://www.apache.org/dist/xml/xerces-c/xerces-c-current.tar.gz
+  tar xvzf tar/xerces-c-current.tar.gz
+
+Built Xerces C according to the source compilation instructions.
+
+  cd xerces-c-src_2_7_0
+  export XERCESCROOT=/usr/local/src/xerces-c-src_2_7_0
+  cd $XERCESCROOT/src/xercesc
+  autoconf
+  ./runConfigure -plinux -cgcc -xg++ -minmem -nsocket -tnative -rpthread
+  make
+  ls -l $XERCESCROOT/lib
+  make install
+  ls -l /usr/local/lib/libxerces*
+  cp -r $XERCESCROOT/include/xercesc /usr/local/include/xercesc
+
+Built XML::Xerces (perl) according to the compilation instructions, by downloading off
+of CPAN.
+
+  export XERCES_INCLUDE=/usr/local/include
+  export XERCES_LIB=/usr/local/lib
+  perl -MCPAN -e "install XML::Xerces"
+
+That's it. It worked. Please note that I have included the exact sequence of commands
+that worked for me.  These represent some slight differences from what is documented
+on the Xerces website.
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2006 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+<Business::Travel::OTA::installguide>
+
+=cut
+

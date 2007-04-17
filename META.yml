@@ -1,39 +1,16 @@
----
-name: Business-Travel-OTA
-version: 0.53
-author:
-  - sadkins@therubicongroup.com
-abstract: Tools for handling OTA-compliant (Open Travel Alliance) messages
-license: perl
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Business-Travel-OTA
+version:      0.90
+version_from: 
+installdirs:  site
 requires:
-  App::Options: 0
-  SOAP::Lite: 0
-  XML::Simple: 0
-  XML::XPath: 0
-build_requires:
-  App::Build: 0
-  File::Spec: 0
-dynamic_config: 1
-provides:
-  Business::Travel::OTA:
-    file: lib/Business/Travel/OTA.pm
-    version: 0.53
-  Business::Travel::OTA::Client:
-    file: lib/Business/Travel/OTA/Client.pm
-    version: 1.02
-  Business::Travel::OTA::Client::HTTP:
-    file: lib/Business/Travel/OTA/Client/HTTP.pm
-    version: 1.02
-  Business::Travel::OTA::Client::Local:
-    file: lib/Business/Travel/OTA/Client/Local.pm
-    version: 1.02
-  Business::Travel::OTA::Client::SOAP:
-    file: lib/Business/Travel/OTA/Client/SOAP.pm
-    version: 1.02
-  Business::Travel::OTA::Server:
-    file: lib/Business/Travel/OTA/Server.pm
-    version: 1.03
-  Business::Travel::OTA::Utils:
-    file: lib/Business/Travel/OTA/Utils.pm
-    version: 1.03
-generated_by: Module::Build version 0.2611
+    App::Context:                  0.01
+    App::Options:                  0.01
+    SOAP::Lite:                    0.01
+    XML::DOM:                      0.01
+    XML::Simple:                   0.01
+    XML::XPath:                    0.01
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.30

@@ -1,0 +1,127 @@
+#!perl -w
+# run this document through perl to check its syntax
+use Pod::Checker;
+podchecker(\*DATA);
+__END__
+
+=head1 NAME
+
+Business::Travel::OTA::installguide::ota - Installation Guide for the OTA Specification Files (*.xsd)
+
+=head1 INTRODUCTION
+
+This is the Installation Guide to OTA Specification files (*.xsd).
+
+This is not an official guide, as though there were only one right way to do it.
+Rather, it describes a reasonable way to install the files.
+Other installation guides in this set of documentation will assume that the
+schema files have been installed this way.  If you install it another way,
+you will need to make the appropriate adjustments.
+
+Each OTA specification release (twice a year) includes a set of
+.xsd (XML schema definition) files, some sample .xml files, and an
+XML codes table.
+
+If some of the commands below look complicated, that's ok. You can cut
+and paste them from this guide. (Make sure you get all lines of a
+multi-line command.)
+
+=head1 INSTALLATION
+
+=head2 OTA 2005B on Linux (2006-04-19)
+
+Review and agree to the license.
+
+  http://www.opentravel.org/license.cfm
+
+Choose a location to install.
+I build all of my systems with a "project root directory"
+which is stored in an environment variable called "PREFIX".
+For this installation, I was installing in my development environment.
+(You could, however, choose a system place such as "/usr/local".)
+
+  export PREFIX=/usr/rubicon/spadkins
+
+Download and unpack 2005B.
+
+  cd $PREFIX/src
+  mkdir tar
+  wget -O tar/OTA2005B_Publication.zip http://www.opentravel.org/downloads/OTA2005B_Publication.zip
+  mkdir OTA2005B
+  cd OTA2005B
+  unzip ../tar/OTA2005B_Publication.zip
+
+Install 2005B.
+
+  mkdir $PREFIX/share
+  mkdir $PREFIX/share/ota
+  mkdir $PREFIX/share/ota/2005B
+  mkdir $PREFIX/share/ota/2005B/schema
+  mkdir $PREFIX/share/ota/2005B/schema-flat
+  mkdir $PREFIX/share/ota/2005B/samples
+
+  # The perl/expand pipelines below simply copy the files
+  # and perform the following transformations on them.
+  #  1. change CR-LF combinations to LF only
+  #  2. change solo CR's to LF
+  #  3. expand tabs to 2 spaces each
+  #  4. reformat as necessary
+
+  # cp $PREFIX/src/OTA2005B/_OTA2005B_XML/*.xsd $PREFIX/share/ota/2005B/schema
+  cd $PREFIX/src/OTA2005B/_OTA2005B_XML
+  for file in *.xsd
+  do
+    cat $file |
+      perl -p -e 's/\r+\n/\n/g;
+                  s/\r/\n/g;' |
+      expand -t 2 > $PREFIX/share/ota/2005B/schema/$file
+  done
+
+  # cp $PREFIX/src/OTA2005B/_OTA2005B_XMLFlattenedSchema/*.xsd $PREFIX/share/ota/2005B/schema-flat
+  cd $PREFIX/src/OTA2005B/_OTA2005B_XMLFlattenedSchema
+  for file in *.xsd
+  do
+    cat $file |
+      perl -p -e 's/\r+\n/\n/g;
+                  s/\r/\n/g;' |
+      expand -t 2 > $PREFIX/share/ota/2005B/schema-flat/$file
+  done
+
+  # cp $PREFIX/src/OTA2005B/_OTA2005B_XML/*.xml $PREFIX/share/ota/2005B/samples
+  cd $PREFIX/src/OTA2005B/_OTA2005B_XML
+  for file in *.xml
+  do
+    cat $file |
+      perl -p -e 's/\r+\n/\n/g;
+                  s/\r/\n/g;' |
+      expand -t 2 > $PREFIX/share/ota/2005B/samples/$file
+  done
+
+  # also reformat to be nicer to read
+  # cp $PREFIX/src/OTA2005B/_OTA_CodeTable/OTA_CodeTable20051122.xml $PREFIX/share/ota/2005B/codetable.xml
+  cat $PREFIX/src/OTA2005B/_OTA_CodeTable/OTA_CodeTable20051122.xml |
+    perl -p -e 's/\r+\n/\n/g;
+              s/\r/\n/g;
+              s/" *\n/" /g;
+              s!^<Codes!  <Codes!mg;
+              s!^<Code !    <Code !mg;
+              s!^<CodeContents!      <CodeContents!mg;
+              s!^<CodeContent !        <CodeContent !mg;
+              s!^</CodeContents!      </CodeContents!mg;
+              s!^</Code>!    </Code>!mg;
+              s!^</Codes!  </Codes!mg;
+              s/Name = /Name=/g;' |
+    expand -t 2 > $PREFIX/share/ota/2005B/codetable.xml
+
+=head1 ACKNOWLEDGEMENTS
+
+ * Author:  Stephen Adkins <sadkins@therubicongroup.com>
+ * Copyright: (c) 2006 Stephen Adkins (for the purpose of making it Free)
+ * License: This is free software. It is licensed under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+<Business::Travel::OTA::installguide>
+
+=cut
+
